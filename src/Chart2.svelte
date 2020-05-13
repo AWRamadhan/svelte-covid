@@ -12,14 +12,19 @@
     var data = google.visualization.arrayToDataTable(value);
 
     // Optional; add a title and set the width and height of the chart
-    var options = { backgroundColor: 'none' };
+    var options = {
+      backgroundColor: "none",
+      hAxis: {
+        textStyle: { color: "#FFF" }
+      }
+    };
 
     // Display the chart inside the <div> element with id="piechart"
     var chart = new google.visualization.LineChart(
-      document.getElementById("barchart")
+      document.getElementById("linechart")
     );
     chart.draw(data, options);
   }
 </script>
 
-<div id="barchart" />
+<div id="linechart" />

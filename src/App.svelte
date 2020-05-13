@@ -2,14 +2,15 @@
   import Navbar from "./Navbar.svelte";
   import { onMount } from "svelte";
   import Chart from "./Chart.svelte";
+  import Chart2 from "./Chart2.svelte";
 
   let data = [];
-  let new_recover = 0;
+  let new_case = 0;
   let total_recover = 0;
-  let new_death = 0;
   let total_death = 0;
   let i = 0;
   let value = [];
+  let data_compare = [];
 
   onMount(async () => {
     const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
@@ -23,10 +24,23 @@
         data.data[i].jumlahPasienSembuh + data.data[i].jumlahPasienMeninggal
       );
       value.push(hold);
+      total_recover = data.data[i].jumlahPasienSembuh;
+      total_death = data.data[i].jumlahPasienMeninggal;
+      new_case = data.data[i].jumlahKasusBaruperHari;
+    }
+
+    data_compare.push(["Day", "Sembuh", "Meninggal"]);
+    for (i = 0; i < data.data.length; i++) {
+      let hold1 = [];
+      hold1.push(i.toString());
+      hold1.push(data.data[i].jumlahKasusSembuhperHari);
+      hold1.push(data.data[i].jumlahKasusMeninggalperHari);
+      data_compare.push(hold1);
     }
   });
 
-  console.log(value)
+  console.log(value);
+  console.log(data_compare);
 </script>
 
 <style>
@@ -72,15 +86,8 @@
         <div class="info new-recover">
           <div
             class="numberCircle card-text"
-            style="background-color: #56f068;">
-            <span class="lead">{new_recover.toLocaleString()}</span>
-          </div>
-        </div>
-        <div class="info">
-          <div class="numberCircle" style="background-color: #e6204b;">
-            <span class="lead" data-toggle="counter-up">
-              {new_death.toLocaleString()}
-            </span>
+            style="background-color: #2c8cf2;">
+            <span class="lead">{new_case.toLocaleString()}</span>
           </div>
         </div>
         <div class="info">
@@ -118,5 +125,14 @@
       </div>
     </div>
   </div>
-  <Chart value = {value}/>
+
+  <div class="row">
+    <div class="col-sm">
+      <Chart2 {value} />
+    </div>
+    <div class="col-sm">
+      <Chart value={data_compare} />
+    </div>
+  </div>
+
 </main>
