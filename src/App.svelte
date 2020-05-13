@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import Chart from "./Chart.svelte";
   import Chart2 from "./Chart2.svelte";
+  import Chart3 from "./Chart3.svelte";
 
   let data = [];
   let new_case = 0;
@@ -17,6 +18,7 @@
   let day = 0;
   let all_case = 0;
   let today_date = 0;
+  let data_ioghar = [];
 
   onMount(async () => {
     const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
@@ -49,6 +51,14 @@
       today_die = data.data[i].jumlahKasusMeninggalperHari;
     }
 
+    data_ioghar.push(["New Case", "Total Case"]);
+    for (i = 0; i < data.data.length; i++) {
+      let hold2 = [];
+      hold2.push(data.data[i].jumlahKasusBaruperHari);
+      hold2.push(data.data[i].jumlahKasusKumulatif);
+      data_ioghar.push(hold2);
+    }
+    console.log(data_ioghar);
     persentase = total_recover / (total_recover + total_death);
     persentase = persentase.toFixed(2) * 100;
     day = data_compare.length - 1;
@@ -83,8 +93,6 @@
     border: 2px;
     border-radius: 10px;
   }
-
-
 </style>
 
 <main>
@@ -92,7 +100,7 @@
   <div class="row">
     <div class="jumbotron jumbotron-fluid col-sm-4" style="background: none;">
       <div class="container">
-      <p class="lead text-center">{new Date(today_date)}</p>
+        <p class="lead text-center">{new Date(today_date)}</p>
         <div class="info new-recover">
           <div
             class="numberCircle card-text"
@@ -150,7 +158,7 @@
           <p class="lead">
             In Indonesia alone {all_case.toLocaleString()} people infected with
             COVID-19 with {total_recover.toLocaleString()} recovered from the
-            virus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
+            vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
             people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
             of the patient still in care.
           </p>
@@ -160,6 +168,13 @@
   </div>
 
   <div class="row">
+    <div class="col-sm">
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <Chart value={data_compare} />
+        </div>
+      </div>
+    </div>
     <div class="col-sm-4">
       <div class="jumbotron jumbotron-fluid" style="background: none">
         <div class="container">
@@ -172,13 +187,26 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm">
       <div class="jumbotron jumbotron-fluid" style="background: none">
         <div class="container">
-          <Chart value={data_compare} />
+          <Chart3 value={data_ioghar} />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <p class="lead">
+            Total Case vs New Case is a way to see the exponential growth of the
+            COVID-19 case. With this you can see that Indonesia case is still
+            growing.
+          </p>
         </div>
       </div>
     </div>
   </div>
-
 </main>
