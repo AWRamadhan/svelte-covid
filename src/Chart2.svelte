@@ -14,9 +14,7 @@
     // Optional; add a title and set the width and height of the chart
     var options = {
       backgroundColor: "none",
-      hAxis: {
-        textStyle: { color: "#FFF" }
-      }
+      legend: { position: "bottom" }
     };
 
     // Display the chart inside the <div> element with id="piechart"

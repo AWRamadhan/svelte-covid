@@ -12,7 +12,10 @@
     var data = google.visualization.arrayToDataTable(value);
 
     // Optional; add a title and set the width and height of the chart
-    var options = { backgroundColor: 'none' };
+    var options = {
+      backgroundColor: "none",
+      legend: { position: "bottom" }
+    };
 
     // Display the chart inside the <div> element with id="piechart"
     var chart = new google.visualization.LineChart(

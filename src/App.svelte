@@ -11,6 +11,12 @@
   let i = 0;
   let value = [];
   let data_compare = [];
+  let today_sembuh = 0;
+  let today_die = 0;
+  let persentase;
+  let day = 0;
+  let all_case = 0;
+  let today_date = 0;
 
   onMount(async () => {
     const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
@@ -24,9 +30,11 @@
         data.data[i].jumlahPasienSembuh + data.data[i].jumlahPasienMeninggal
       );
       value.push(hold);
-      total_recover = data.data[i].jumlahPasienSembuh;
-      total_death = data.data[i].jumlahPasienMeninggal;
+      total_recover = data.data[data.data.length - 1].jumlahPasienSembuh;
+      total_death = data.data[data.data.length - 1].jumlahPasienMeninggal;
       new_case = data.data[i].jumlahKasusBaruperHari;
+      all_case = data.data[data.data.length - 1].jumlahKasusKumulatif;
+      today_date = data.data[data.data.length - 1].tanggal;
     }
 
     data_compare.push(["Day", "Sembuh", "Meninggal"]);
@@ -36,19 +44,18 @@
       hold1.push(data.data[i].jumlahKasusSembuhperHari);
       hold1.push(data.data[i].jumlahKasusMeninggalperHari);
       data_compare.push(hold1);
-    }
-  });
 
-  console.log(value);
-  console.log(data_compare);
+      today_sembuh = data.data[i].jumlahKasusSembuhperHari;
+      today_die = data.data[i].jumlahKasusMeninggalperHari;
+    }
+
+    persentase = total_recover / (total_recover + total_death);
+    persentase = persentase.toFixed(2) * 100;
+    day = data_compare.length - 1;
+  });
 </script>
 
 <style>
-  .row {
-    background-image: url("/remote-work-man.svg");
-    background-attachment: fixed;
-    background-size: cover;
-  }
   .numberCircle {
     display: inline-block;
     line-height: 0px;
@@ -76,13 +83,16 @@
     border: 2px;
     border-radius: 10px;
   }
+
+
 </style>
 
 <main>
   <Navbar />
   <div class="row">
-    <div class=" jumbotron jumbotron-fluid col-sm-4" style="background: none;">
+    <div class="jumbotron jumbotron-fluid col-sm-4" style="background: none;">
       <div class="container">
+      <p class="lead text-center">{new Date(today_date)}</p>
         <div class="info new-recover">
           <div
             class="numberCircle card-text"
@@ -106,7 +116,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div class="cov-info col-sm-8">
       <div class="jumbotron jumbotron-fluid" style="background: none">
         <div class="container">
           <h1 class="display-4">COVID 19</h1>
@@ -128,10 +138,46 @@
 
   <div class="row">
     <div class="col-sm">
-      <Chart2 {value} />
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <Chart2 {value} />
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <p class="lead">
+            In Indonesia alone {all_case.toLocaleString()} people infected with
+            COVID-19 with {total_recover.toLocaleString()} recovered from the
+            virus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
+            people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
+            of the patient still in care.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <p class="lead">
+            From the data from the past {day} days we know that today we have {new_case}
+            while {today_sembuh} people recover and {today_die} people died from
+            the virus. With the percentage of people recovering {persentase}%
+            and {100 - persentase}% people did not recover.
+          </p>
+        </div>
+      </div>
     </div>
     <div class="col-sm">
-      <Chart value={data_compare} />
+      <div class="jumbotron jumbotron-fluid" style="background: none">
+        <div class="container">
+          <Chart value={data_compare} />
+        </div>
+      </div>
     </div>
   </div>
 
