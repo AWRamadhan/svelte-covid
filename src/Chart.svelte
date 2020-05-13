@@ -1,17 +1,52 @@
 <script>
   import { onMount } from "svelte";
 
-  export let data = [1,2,3,4];
+  let data;
+  let value = [];
+  let day = [];
+  let i = 0;
 
-  function chart() {
-    var ctx = document.getElementById("myChart");
-    var myLineChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: options  
-      });
+  onMount(async () => {
+    const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
+    data = await res.json();
+    for (i = 0; i < data.data.length; i++) {
+      day.push(i.toString());
+      value.push(data.data[i].jumlahKasusKumulatif);
+    }
+  });
+
+  console.log(value);
+  console.log(day);
+
+  onMount(async () => {});
+  function renderChart() {
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var chart = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July"
+        ],
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [0, 10, 5, 2, 20, 30, 45]
+          }
+        ]
+      },
+      options: {}
+    });
   }
-  onMount(chart);
 </script>
 
-<canvas id="myChart" width="200" height="200" />
+<div>
+  <canvas id="myChart" width="200" height="200" />
+</div>
