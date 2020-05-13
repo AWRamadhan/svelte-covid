@@ -8,15 +8,25 @@
   let total_recover = 0;
   let new_death = 0;
   let total_death = 0;
+  let i = 0;
+  let value = [];
 
   onMount(async () => {
-    const res = await fetch(`https://api.covid19api.com/summary`);
+    const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
     data = await res.json();
-    new_death = data.Global.NewDeaths;
-    new_recover = data.Global.NewRecovered;
-    total_recover = data.Global.TotalRecovered;
-    total_death = data.Global.TotalDeaths;
+    value.push(["Day", "Positif", "Selesai"]);
+    for (i = 0; i < data.data.length; i++) {
+      let hold = [];
+      hold.push(i.toString());
+      hold.push(data.data[i].jumlahKasusKumulatif);
+      hold.push(
+        data.data[i].jumlahPasienSembuh + data.data[i].jumlahPasienMeninggal
+      );
+      value.push(hold);
+    }
   });
+
+  console.log(value)
 </script>
 
 <style>
@@ -108,8 +118,5 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm"><Chart /></div>
-    <div class="col-sm">col-sm</div>
-  </div>
+  <Chart value = {value}/>
 </main>

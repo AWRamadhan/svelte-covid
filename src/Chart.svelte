@@ -1,52 +1,30 @@
 <script>
   import { onMount } from "svelte";
 
-  let data;
-  let value = [];
-  let day = [];
-  let i = 0;
+  export let value = [];
+  
+  // Load google charts
+  google.charts.load("current", { packages: ["corechart"] });
+  google.charts.setOnLoadCallback(drawChart);
 
-  onMount(async () => {
-    const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
-    data = await res.json();
-    for (i = 0; i < data.data.length; i++) {
-      day.push(i.toString());
-      value.push(data.data[i].jumlahKasusKumulatif);
-    }
-  });
+  // Draw the chart and set the chart values
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable(value);
 
-  console.log(value);
-  console.log(day);
+    // Optional; add a title and set the width and height of the chart
+    var options = { width: 600, height: 400, bar: { groupWidth: "95%" } };
 
-  onMount(async () => {});
-  function renderChart() {
-    var ctx = document.getElementById("myChart").getContext("2d");
-    var chart = new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July"
-        ],
-        datasets: [
-          {
-            label: "My First dataset",
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgb(255, 99, 132)",
-            data: [0, 10, 5, 2, 20, 30, 45]
-          }
-        ]
-      },
-      options: {}
-    });
+    // Display the chart inside the <div> element with id="piechart"
+    var chart = new google.visualization.LineChart(
+      document.getElementById("barchart")
+    );
+    chart.draw(data, options);
   }
 </script>
 
-<div>
-  <canvas id="myChart" width="200" height="200" />
+<div class="row">
+  <div class="col-sm">col col</div>
+  <div class="col-sm">
+    <div id="barchart" />
+  </div>
 </div>
