@@ -23,8 +23,16 @@
   onMount(async () => {
     const res = await fetch(`https://indonesia-covid-19.mathdro.id/api/harian`);
     data = await res.json();
+
+    let length = 0;
+    if (data.data[data.data.length - 1].jumlahKasusKumulatif == null) {
+      length = data.data.length - 1;
+    } else {
+      length = data.data.length;
+    }
+
     value.push(["Day", "Positif", "Selesai"]);
-    for (i = 0; i < data.data.length; i++) {
+    for (i = 0; i < length; i++) {
       let hold = [];
       hold.push(i.toString());
       hold.push(data.data[i].jumlahKasusKumulatif);
@@ -32,15 +40,15 @@
         data.data[i].jumlahPasienSembuh + data.data[i].jumlahPasienMeninggal
       );
       value.push(hold);
-      total_recover = data.data[data.data.length - 1].jumlahPasienSembuh;
-      total_death = data.data[data.data.length - 1].jumlahPasienMeninggal;
+      total_recover = data.data[length - 1].jumlahPasienSembuh;
+      total_death = data.data[length - 1].jumlahPasienMeninggal;
       new_case = data.data[i].jumlahKasusBaruperHari;
-      all_case = data.data[data.data.length - 1].jumlahKasusKumulatif;
-      today_date = data.data[data.data.length - 1].tanggal;
+      all_case = data.data[length - 1].jumlahKasusKumulatif;
+      today_date = data.data[length - 1].tanggal;
     }
 
     data_compare.push(["Day", "Sembuh", "Meninggal"]);
-    for (i = 0; i < data.data.length; i++) {
+    for (i = 0; i < length; i++) {
       let hold1 = [];
       hold1.push(i.toString());
       hold1.push(data.data[i].jumlahKasusSembuhperHari);
@@ -52,13 +60,12 @@
     }
 
     data_ioghar.push(["New Case", "Total Case"]);
-    for (i = 0; i < data.data.length; i++) {
+    for (i = 0; i < length; i++) {
       let hold2 = [];
       hold2.push(data.data[i].jumlahKasusBaruperHari);
       hold2.push(data.data[i].jumlahKasusKumulatif);
       data_ioghar.push(hold2);
     }
-    console.log(data_ioghar);
     persentase = total_recover / (total_recover + total_death);
     persentase = persentase.toFixed(2) * 100;
     day = data_compare.length - 1;
@@ -98,7 +105,7 @@
 <main>
   <Navbar />
   <div class="row">
-    <div class="jumbotron jumbotron-fluid col-sm-4" style="background: none;">
+    <div class="jumbotron jumbotron-fluid col-sm-4 p-1" style="background: none;">
       <div class="container">
         <p class="lead text-center">{new Date(today_date)}</p>
         <div class="info new-recover">
@@ -125,7 +132,7 @@
       </div>
     </div>
     <div class="cov-info col-sm-8">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <h1 class="display-4">COVID 19</h1>
           <p class="lead">
@@ -146,21 +153,21 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <Chart2 {value} />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <p class="lead">
             In Indonesia alone {all_case.toLocaleString()} people infected with
             COVID-19 with {total_recover.toLocaleString()} recovered from the
             vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
             people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
-            of the patient still in care.
+            of the patient still in care where mortality rate is in {((total_death / all_case) * 100).toFixed()}.
           </p>
         </div>
       </div>
@@ -169,14 +176,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <Chart value={data_compare} />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <p class="lead">
             From the data from the past {day} days we know that today we have {new_case}
@@ -191,14 +198,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <Chart3 value={data_ioghar} />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
         <div class="container">
           <p class="lead">
             Total Case vs New Case is a way to see the exponential growth of the

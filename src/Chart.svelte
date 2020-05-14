@@ -23,6 +23,7 @@
     );
     chart.draw(data, options);
   }
+
 </script>
 
 <div id="barchart" />
