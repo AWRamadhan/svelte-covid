@@ -59,8 +59,8 @@
     data_ioghar.push(["New Case", "Total Case"]);
     for (i = 0; i < length; i++) {
       let hold2 = [];
-      hold2.push(data.data[i].jumlahKasusBaruperHari);
       hold2.push(data.data[i].jumlahKasusKumulatif);
+      hold2.push(data.data[i].jumlahKasusBaruperHari);
       data_ioghar.push(hold2);
     }
     persentase = total_recover / (total_recover + total_death);
@@ -97,14 +97,10 @@
 
       var options1 = {
         legend: "none",
-        hAxis: { title: "New Case" },
-        vAxis: { title: "Total Case" },
+        hAxis: { title: "Total Case" },
+        vAxis: { title: "New Case" },
         trendlines: {
-          0: {
-            type: "polynomial",
-            degree: 3,
-            visibleInLegend: true
-          }
+          0: { type: "polynomial", degree: 3, visibleInLegend: true }
         }
       };
 
