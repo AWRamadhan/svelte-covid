@@ -1,9 +1,6 @@
 <script>
   import Navbar from "./Navbar.svelte";
   import { onMount } from "svelte";
-  import Chart from "./Chart.svelte";
-  import Chart2 from "./Chart2.svelte";
-  import Chart3 from "./Chart3.svelte";
 
   let data = [];
   let new_case = 0;
@@ -69,7 +66,57 @@
     persentase = total_recover / (total_recover + total_death);
     persentase = persentase.toFixed(2) * 100;
     day = data_compare.length - 1;
+
+    //---------
+    // Load google charts
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable(value);
+      var data2 = google.visualization.arrayToDataTable(data_compare);
+      var data3 = google.visualization.arrayToDataTable(data_ioghar);
+
+      // Optional; add a title and set the width and height of the chart
+      var options = {
+        backgroundColor: "none",
+        legend: { position: "bottom" }
+      };
+
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.LineChart(
+        document.getElementById("barchart")
+      );
+      chart.draw(data, options);
+
+      var chart = new google.visualization.LineChart(
+        document.getElementById("linechart")
+      );
+      chart.draw(data2, options);
+
+      var options1 = {
+        legend: "none",
+        hAxis: { title: "New Case" },
+        vAxis: { title: "Total Case" },
+        trendlines: {
+          0: {
+            type: "polynomial",
+            degree: 3,
+            visibleInLegend: true
+          }
+        }
+      };
+
+      var chart = new google.visualization.ScatterChart(
+        document.getElementById("chart_div")
+      );
+
+      chart.draw(data3, options1);
+    }
   });
+
+  console.log(value.length == 0);
 </script>
 
 <style>
@@ -105,7 +152,9 @@
 <main>
   <Navbar />
   <div class="row">
-    <div class="jumbotron jumbotron-fluid col-sm-4 p-1" style="background: none;">
+    <div
+      class="jumbotron jumbotron-fluid col-sm-4 p-2"
+      style="background: none;">
       <div class="container">
         <p class="lead text-center">{new Date(today_date)}</p>
         <div class="info new-recover">
@@ -132,7 +181,7 @@
       </div>
     </div>
     <div class="cov-info col-sm-8">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
           <h1 class="display-4">COVID 19</h1>
           <p class="lead">
@@ -153,14 +202,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
-          <Chart2 {value} />
+          <div id="barchart" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
           <p class="lead">
             In Indonesia alone {all_case.toLocaleString()} people infected with
@@ -176,14 +225,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
-          <Chart value={data_compare} />
+          <div id="linechart" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
           <p class="lead">
             From the data from the past {day} days we know that today we have {new_case}
@@ -198,14 +247,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
-          <Chart3 value={data_ioghar} />
+          <div id="chart_div" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-1" style="background: none">
+      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
         <div class="container">
           <p class="lead">
             Total Case vs New Case is a way to see the exponential growth of the
