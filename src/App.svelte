@@ -147,7 +147,7 @@
 <main>
   <Navbar />
   <div class="row">
-    <div class="upt-data jumbotron jumbotron-fluid col-sm-4 pt-2 m-0">
+    <div class="upt-data jumbotron jumbotron-fluid col-sm-4 p-2">
       <p class="lead text-center">{new Date(today_date)}</p>
       <div class="info new-recover">
         <div class="numberCircle card-text" style="background-color: #2c8cf2;">
@@ -170,7 +170,7 @@
       </div>
     </div>
     <div class="cov-info col-sm-8">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <h1 class="display-4">COVID 19</h1>
         <p class="lead">
           Coronavirus disease (COVID-19) is an infectious disease caused by a
@@ -189,14 +189,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <div class="container">
           <div id="barchart" />
         </div>
       </div>
     </div>
     <div class="col-sm-5">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <p class="lead">
           In Indonesia there are {all_case.toLocaleString()} people infected with
           COVID-19 with {total_recover.toLocaleString()} recovered from the
@@ -218,14 +218,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <div class="container">
           <div id="linechart" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <p class="lead">
           From the data from the past {day} days we know that today we have {new_case}
           while {today_sembuh} people recover and {today_die} people died from
@@ -238,14 +238,14 @@
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <div class="container">
           <div id="chart_div" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+      <div class="jumbotron jumbotron-fluid p-2">
         <p class="lead">
           Total Case vs New Case is a way to see the exponential growth of the
           COVID-19 case. With this you can see that Indonesia case is still
