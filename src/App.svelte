@@ -97,6 +97,7 @@
 
       var options1 = {
         legend: "none",
+        backgroundColor: "none",
         hAxis: { title: "Total Case" },
         vAxis: { title: "New Case" },
         trendlines: {
@@ -112,7 +113,6 @@
     }
   });
 
-  console.log(value.length == 0);
 </script>
 
 <style>
@@ -139,125 +139,118 @@
     padding: 0.5rem;
   }
 
-  .col-sm-4 {
-    border: 2px;
-    border-radius: 10px;
+  .jumbotron {
+    background: none;
   }
 </style>
 
 <main>
   <Navbar />
   <div class="row">
-    <div
-      class="jumbotron jumbotron-fluid col-sm-4 p-2"
-      style="background: none;">
-      <div class="container">
-        <p class="lead text-center">{new Date(today_date)}</p>
-        <div class="info new-recover">
-          <div
-            class="numberCircle card-text"
-            style="background-color: #2c8cf2;">
-            <span class="lead">{new_case.toLocaleString()}</span>
-          </div>
+    <div class="upt-data jumbotron jumbotron-fluid col-sm-4 pt-2 m-0">
+      <p class="lead text-center">{new Date(today_date)}</p>
+      <div class="info new-recover">
+        <div class="numberCircle card-text" style="background-color: #2c8cf2;">
+          <span class="lead">{new_case.toLocaleString()}</span>
         </div>
-        <div class="info">
-          <div class="numberCircle" style="background-color: #0af745;">
-            <span class="lead" data-toggle="counter-up">
-              {total_recover.toLocaleString()}
-            </span>
-          </div>
+      </div>
+      <div class="info">
+        <div class="numberCircle" style="background-color: #0af745;">
+          <span class="lead" data-toggle="counter-up">
+            {total_recover.toLocaleString()}
+          </span>
         </div>
-        <div class="info">
-          <div class="numberCircle" style="background-color: #de0b20;">
-            <span class="lead" data-toggle="counter-up">
-              {total_death.toLocaleString()}
-            </span>
-          </div>
+      </div>
+      <div class="info">
+        <div class="numberCircle" style="background-color: #de0b20;">
+          <span class="lead" data-toggle="counter-up">
+            {total_death.toLocaleString()}
+          </span>
         </div>
       </div>
     </div>
     <div class="cov-info col-sm-8">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
-        <div class="container">
-          <h1 class="display-4">COVID 19</h1>
-          <p class="lead">
-            Coronavirus disease (COVID-19) is an infectious disease caused by a
-            newly discovered coronavirus.
-          </p>
-          <p class="lead">
-            Most people infected with the COVID-19 virus will experience mild to
-            moderate respiratory illness and recover without requiring special
-            treatment. Older people, and those with underlying medical problems
-            like cardiovascular disease, diabetes, chronic respiratory disease,
-            and cancer are more likely to develop serious illness.
-          </p>
-        </div>
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+        <h1 class="display-4">COVID 19</h1>
+        <p class="lead">
+          Coronavirus disease (COVID-19) is an infectious disease caused by a
+          newly discovered coronavirus.
+        </p>
+        <p class="lead">
+          Most people infected with the COVID-19 virus will experience mild to
+          moderate respiratory illness and recover without requiring special
+          treatment. Older people, and those with underlying medical problems
+          like cardiovascular disease, diabetes, chronic respiratory disease,
+          and cancer are more likely to develop serious illness.
+        </p>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
         <div class="container">
           <div id="barchart" />
         </div>
       </div>
     </div>
-    <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
-        <div class="container">
-          <p class="lead">
-            In Indonesia alone {all_case.toLocaleString()} people infected with
-            COVID-19 with {total_recover.toLocaleString()} recovered from the
-            vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
-            people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
-            of the patient still in care where mortality rate is in {((total_death / all_case) * 100).toFixed()}.
-          </p>
-        </div>
+    <div class="col-sm-5">
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+        <p class="lead">
+          In Indonesia alone {all_case.toLocaleString()} people infected with
+          COVID-19 with {total_recover.toLocaleString()} recovered from the
+          vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
+          people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
+          of the patient still in care where mortality rate is in {((total_death / all_case) * 1000).toFixed() / 10}%
+          compared to seasonal flu arround 2%. With mortality rate in {((total_death / all_case) * 1000).toFixed() / 10}%
+          we can calculate that arround {(
+            (total_death / all_case) *
+            (all_case - (total_recover + total_death))
+          )
+            .toFixed()
+            .toLocaleString()} patient in care will not survive againts this
+          virus.
+        </p>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
         <div class="container">
           <div id="linechart" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
-        <div class="container">
-          <p class="lead">
-            From the data from the past {day} days we know that today we have {new_case}
-            while {today_sembuh} people recover and {today_die} people died from
-            the virus. With the percentage of people recovering {persentase}%
-            and {100 - persentase}% people did not recover.
-          </p>
-        </div>
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+        <p class="lead">
+          From the data from the past {day} days we know that today we have {new_case}
+          while {today_sembuh} people recover and {today_die} people died from
+          the virus. With the percentage of people recovering {persentase}% and {100 - persentase}%
+          people did not recover.
+        </p>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-sm">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
         <div class="container">
           <div id="chart_div" />
         </div>
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="jumbotron jumbotron-fluid p-2" style="background: none">
-        <div class="container">
-          <p class="lead">
-            Total Case vs New Case is a way to see the exponential growth of the
-            COVID-19 case. With this you can see that Indonesia case is still
-            growing.
-          </p>
-        </div>
+      <div class="jumbotron jumbotron-fluid pt-2 m-0">
+        <p class="lead">
+          Total Case vs New Case is a way to see the exponential growth of the
+          COVID-19 case. With this you can see that Indonesia case is still
+          growing.
+        </p>
       </div>
     </div>
   </div>
