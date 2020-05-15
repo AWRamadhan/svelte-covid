@@ -198,7 +198,7 @@
     <div class="col-sm-5">
       <div class="jumbotron jumbotron-fluid pt-2 m-0">
         <p class="lead">
-          In Indonesia alone {all_case.toLocaleString()} people infected with
+          In Indonesia there are {all_case.toLocaleString()} people infected with
           COVID-19 with {total_recover.toLocaleString()} recovered from the
           vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
           people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
