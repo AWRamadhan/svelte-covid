@@ -112,7 +112,6 @@
       chart.draw(data3, options1);
     }
   });
-
 </script>
 
 <style>
@@ -198,9 +197,9 @@
     <div class="col-sm-5">
       <div class="jumbotron jumbotron-fluid p-2">
         <p class="lead">
-          In Indonesia there are {all_case.toLocaleString()} people infected with
-          COVID-19 with {total_recover.toLocaleString()} recovered from the
-          vLineChartirus. There is {(all_case - (total_recover + total_death)).toLocaleString()}
+          In Indonesia there are {all_case.toLocaleString()} people infected
+          with COVID-19 with {total_recover.toLocaleString()} recovered from the
+          virus There is {(all_case - (total_recover + total_death)).toLocaleString()}
           people still in in care, that's mean {(((all_case - (total_recover + total_death)) / all_case) * 100).toFixed()}%
           of the patient still in care where mortality rate is in {((total_death / all_case) * 1000).toFixed() / 10}%
           compared to seasonal flu arround 2%. With mortality rate in {((total_death / all_case) * 1000).toFixed() / 10}%
