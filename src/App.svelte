@@ -226,7 +226,7 @@
     <div class="col-sm-4">
       <div class="jumbotron jumbotron-fluid p-2">
         <p class="lead">
-          From the data from the past {day} days we know that today we have {new_case}
+          From the data from the past {day} days we know that today we have {new_case} of new case
           while {today_sembuh} people recover and {today_die} people died from
           the virus. With the percentage of people recovering {persentase}% and {100 - persentase}%
           people did not recover.
